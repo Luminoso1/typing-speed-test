@@ -1,13 +1,85 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Sora', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --neutral-900: hsl(0, 0%, 7%);
+  --neutral-800: hsl(0, 0%, 15%);
+  --neutral-500: hsl(240, 3%, 46%);
+  --neutral-400: hsl(240, 1%, 59%);
+  --neutral-0: hsl(0, 0%, 100%);
+
+  --blue-600: hsl(214, 100%, 55%);
+  --blue-400: hsl(210, 100%, 65%);
+
+  --red-500: hsl(354, 63%, 57%);
+
+  --green-500: hsl(140, 63%, 57%);
+
+  --yellow-400: hsl(49, 85%, 70%);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+body {
+  min-width: 375px;
+  min-height: 100dvh;
+  background-color: var(--neutral-900);
+  color: var(--neutral-0);
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.type-box {
+  width: 100%;
+  min-height: 300px;
+  margin-top: 1rem;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  line-height: 2;
+  letter-spacing: 2px;
+}
+
+.cursor::affter {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
