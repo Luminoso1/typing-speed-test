@@ -62,7 +62,11 @@ h1 {
   letter-spacing: 2px;
 }
 
-.cursor::affter {
+.type-box span {
+  position: relative;
+}
+
+.cursor::after {
   content: '';
   position: absolute;
   left: 0;
@@ -72,6 +76,33 @@ h1 {
   background-color: #fff;
 
   animation: blink 1s step-end infinite;
+}
+
+.type-box span {
+  font-size: 2.5rem;
+  position: relative;
+}
+
+.text-empty {
+  color: var(--neutral-400);
+}
+
+.text-filled {
+  color: var(--green-500);
+}
+
+.text-error {
+  color: var(--red-500);
+}
+
+.text-error::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: var(--red-500);
 }
 
 @keyframes blink {
