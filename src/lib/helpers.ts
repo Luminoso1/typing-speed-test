@@ -1,4 +1,4 @@
-import type { Character } from './types'
+import type { CharacterState } from './types'
 import data from './data.json'
 
 type Text = {
@@ -17,10 +17,21 @@ type Dificulty = 'easy' | 'medium' | 'hard'
 
 const textData = data as Data
 
-export const getRandomTextCharacters = (dificulty: Dificulty): Character[] => {
+export const getRandomTextCharacters = (dificulty: Dificulty): string => {
   const texts = textData[dificulty]
   const random = Math.floor(Math.random() * texts.length)
   return texts[random].text
-    .split('')
-    .map((value, index) => ({ index, value, state: 'EMPTY' }))
+}
+
+export const calculateClass = (
+  state: CharacterState,
+  isCurrent = false,
+): string => {
+  const base = {
+    EMPTY: 'text-empty',
+    FILLED: 'text-filled',
+    ERROR: 'text-error',
+  }[state]
+
+  return `${base} ${isCurrent ? 'cursor' : ''}`
 }
