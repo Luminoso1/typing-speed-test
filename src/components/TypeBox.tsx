@@ -6,7 +6,9 @@ import CharacterItem from './CharacterItem'
 const text = getRandomTextCharacters('easy')
 
 export default function TypeBox() {
-  const { userInput, current } = useType(text)
+  const { userInput, current, wpm, time, status, errors, accuracy } =
+    useType(text)
+
   return (
     <div className="type-box">
       {text.split('').map((char, index) => {
@@ -24,6 +26,11 @@ export default function TypeBox() {
           />
         )
       })}
+      <h2>Status: {status}</h2>
+      <h2>WPM: {wpm}</h2>
+      <h2>Errors: {errors}</h2>
+      <h2>Timer: {time}</h2>
+      <h2>accuracy: {accuracy}</h2>
     </div>
   )
 }
