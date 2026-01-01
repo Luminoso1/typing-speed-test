@@ -13,6 +13,7 @@ export const useType = (text: string) => {
     secondsLeft: time,
     startCountDown,
     resetCountDown,
+    stopCountDown,
   } = useCountDown(TIME)
 
   const current = userInput.length
@@ -69,6 +70,7 @@ export const useType = (text: string) => {
   useEffect(() => {
     if (time <= 0 || (userInput.length === text.length && text.length > 0)) {
       setStatus('FINISHED')
+      stopCountDown()
     }
   }, [time, userInput.length])
 

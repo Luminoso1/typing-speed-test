@@ -21,9 +21,13 @@ export const useCountDown = (seconds: number) => {
   }, [secondsLeft, isActive])
 
   const startCountDown = () => setIsActive(true)
+
   const resetCountDown = () => {
     setSecondsLeft(seconds)
     setIsActive(false)
   }
-  return { secondsLeft, startCountDown, resetCountDown }
+
+  const stopCountDown = () => setIsActive(false)
+
+  return { secondsLeft, startCountDown, resetCountDown, stopCountDown }
 }
