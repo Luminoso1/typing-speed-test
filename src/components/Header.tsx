@@ -1,7 +1,7 @@
 export default function Header({ bestScore }: { bestScore: number }) {
   return (
-    <header>
-      <div className="column">
+    <header className="flex items-center justify-between pt-8 pb-16">
+      <div className="flex items-center gap-2">
         <svg
           width="32"
           height="32"
@@ -30,12 +30,14 @@ export default function Header({ bestScore }: { bestScore: number }) {
           </defs>
         </svg>
         <div>
-          <h1>Typing Speed Test</h1>
-          <p>Type as fast as you can in 60 seconds</p>
+          <h1 className="text-2xl font-bold">Typing Speed Test</h1>
+          <p className="text-neutral-400 text-sm">
+            Type as fast as you can in 60 seconds
+          </p>
         </div>
       </div>
 
-      <div className="column">
+      <div className="flex items-center gap-2">
         <svg
           width="21"
           height="18"
@@ -48,8 +50,9 @@ export default function Header({ bestScore }: { bestScore: number }) {
             fill="#F4DC73"
           />
         </svg>
-        <p className="best-score">
-          Personal best: <span>{bestScore} WPM</span>
+        <p className="text-lg text-neutral-400">
+          <span>Personal </span> Best:{' '}
+          <span className="text-neutral-0 text-lg">{bestScore} WPM</span>
         </p>
       </div>
     </header>

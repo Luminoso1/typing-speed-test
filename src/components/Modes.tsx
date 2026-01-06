@@ -6,8 +6,8 @@ type Props = {
 
 export default function Modes({ onChange }: Props) {
   return (
-    <div className="modes">
-      <p>Mode:</p>
+    <div className="flex items-center gap-2">
+      <p className="text-neutral-400">Mode:</p>
       <label htmlFor="mode-timed" tabIndex={0} className="focus">
         Timed (60s)
         <input

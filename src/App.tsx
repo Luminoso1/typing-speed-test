@@ -6,12 +6,12 @@ import Modes from './components/Modes'
 
 function App() {
   return (
-    <div className="container">
+    <div className="mx-auto max-w-[1200px] px-6">
       <Header bestScore={0} />
 
-      <div className="board-header">
+      <div className="flex items-center justify-between">
         <Stats stats={{ wpm: 0, accuracy: 0, time: 0 }} />
-        <div className="config">
+        <div className="flex items-center gap-8">
           <Levels onChange={() => {}} />
           <Modes onChange={() => {}} />
         </div>
