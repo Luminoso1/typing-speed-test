@@ -10,7 +10,7 @@ export default function TypeBox() {
     useType(text)
 
   return (
-    <div className="type-box">
+    <div className="type-box mt-4 min-h-[300px] w-full border-none leading-[1.35] tracking-[.4px] text-white">
       {text.split('').map((char, index) => {
         let state: CharacterState = 'EMPTY'
         if (index < userInput.length) {

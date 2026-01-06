@@ -6,8 +6,8 @@ type Props = {
 
 export default function Levels({ onChange }: Props) {
   return (
-    <div className="levels">
-      <p>Difficulty:</p>
+    <div className="flex items-center gap-2">
+      <p className="text-neutral-400">Difficulty:</p>
       <label htmlFor="level-easy" tabIndex={0} className="focus">
         Easy
         <input

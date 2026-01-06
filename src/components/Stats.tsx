@@ -8,7 +8,7 @@ type Props = {
 
 export default function Stats({ stats }: Props) {
   return (
-    <div className="stats">
+    <div className="stats flex gap-4">
       <h2>
         WPM: <span>{stats.wpm}</span>
       </h2>
