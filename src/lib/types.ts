@@ -5,3 +5,7 @@ export type Character = {
 }
 
 export type CharacterState = 'EMPTY' | 'FILLED' | 'ERROR'
+
+export type Level = 'easy' | 'medium' | 'hard'
+
+export type Mode = 'timed' | 'passage'
