@@ -1,14 +1,13 @@
-import { getRandomTextCharacters } from '../lib/helpers'
 import type { CharacterState } from '../lib/types.ts'
-import { useType } from '../hooks/useType'
 import CharacterItem from './CharacterItem'
 
-const text = getRandomTextCharacters('easy')
+type Props = {
+  text: string
+  userInput: string
+  current: number
+}
 
-export default function TypeBox() {
-  const { userInput, current, wpm, time, status, errors, accuracy } =
-    useType(text)
-
+export default function TypeBox({ text, userInput, current }: Props) {
   return (
     <div className="type-box mt-4 min-h-[300px] w-full border-none leading-[1.35] tracking-[.4px] text-white">
       {text.split('').map((char, index) => {
@@ -26,11 +25,6 @@ export default function TypeBox() {
           />
         )
       })}
-      <h2>Status: {status}</h2>
-      <h2>WPM: {wpm}</h2>
-      <h2>Errors: {errors}</h2>
-      <h2>Timer: {time}</h2>
-      <h2>accuracy: {accuracy}</h2>
     </div>
   )
 }

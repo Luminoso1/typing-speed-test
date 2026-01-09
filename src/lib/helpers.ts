@@ -1,4 +1,4 @@
-import type { CharacterState } from './types'
+import type { CharacterState, Level } from './types'
 import data from './data.json'
 
 type Text = {
@@ -13,11 +13,9 @@ type Data = {
   hard: Text[]
 }
 
-type Dificulty = 'easy' | 'medium' | 'hard'
-
 const textData = data as Data
 
-export const getRandomTextCharacters = (dificulty: Dificulty): string => {
+export const getRandomText = (dificulty: Level): string => {
   const texts = textData[dificulty]
   const random = Math.floor(Math.random() * texts.length)
   return texts[random].text

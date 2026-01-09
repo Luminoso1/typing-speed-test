@@ -16,3 +16,5 @@ export const MODES = [
   { label: 'Timed (60s)', value: 'timed' },
   { label: 'passage', value: 'passage' },
 ] as const
+
+export const DEFAULT_TIME = 60 // seconds

@@ -1,6 +1,7 @@
 import type { LabelsProps } from '../lib/types'
 
 export default function CustomLabels<T extends string>({
+  title,
   name,
   actual,
   options,
@@ -16,7 +17,7 @@ export default function CustomLabels<T extends string>({
 
   return (
     <div className="flex items-center gap-2">
-      <p className="text-neutral-400">Difficulty:</p>
+      <p className="text-neutral-400 capitalize">{title}:</p>
       {normalizedOptions.map(({ label, value }) => {
         const id = label + '-' + value
         return (
@@ -24,7 +25,7 @@ export default function CustomLabels<T extends string>({
             key={id}
             htmlFor={id}
             tabIndex={0}
-            className="focus capitalize"
+            className="focus px-2.5 py-1.5 capitalize"
           >
             {label}
             <input
