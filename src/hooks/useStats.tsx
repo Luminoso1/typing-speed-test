@@ -1,18 +1,17 @@
 import { useMemo } from 'react'
-import { DEFAULT_TIME } from '../lib/constants'
 
 export default function useStats(
   text: string,
   userInput: string,
-  time: number,
+  counter: number,
 ) {
   const wpm = useMemo(() => {
-    const timeElapse = (DEFAULT_TIME - time) / DEFAULT_TIME
-    if (timeElapse <= 0 || userInput.length === 0) return 0
+    const minutesElapsed = counter / 60
+    if (minutesElapsed <= 0) return 0
 
     const words = userInput.length / 5
-    return Math.round(words / timeElapse)
-  }, [userInput, time])
+    return Math.round(words / minutesElapsed)
+  }, [userInput, counter])
 
   const errors = useMemo(() => {
     let count = 0

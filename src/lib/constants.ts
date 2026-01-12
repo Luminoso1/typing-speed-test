@@ -8,6 +8,7 @@ export const ALLOWED_KEYS = [
   ...NUMBERS,
   ...SYMBOLS,
   ' ',
+  'Backspace',
 ] as const
 
 export const LEVELS = ['easy', 'medium', 'hard'] as const

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import type { Level, Mode } from './lib/types'
 import { LEVELS, MODES } from './lib/constants'
 import Header from './components/Header'
@@ -10,54 +10,91 @@ import RestartButton from './components/RestartButton'
 import useGameStatus from './hooks/useGameStatus'
 import useType from './hooks/useType'
 import useStats from './hooks/useStats'
+import useCounter from './hooks/useCounter'
 import { getRandomText } from './lib/helpers'
+
+type Duration = 15 | 30 | 60 | 90
 
 function App() {
   const [level, setLevel] = useState<Level>('easy')
   const [mode, setMode] = useState<Mode>('timed')
+  const [duration, setDuration] = useState<Duration>(15)
   const [text, setText] = useState(() => getRandomText(level))
 
-  const { status, time, start, finish, reset } = useGameStatus()
-  const { userInput, current, clearInput } = useType(
-    text,
-    status,
-    start,
-    finish,
+  const { status, startTest, finishTest, resetTest } = useGameStatus()
+  const { counter, startCounter, stopCounter, resetCounter } = useCounter(
+    duration,
+    mode,
   )
-  const { wpm, accuracy } = useStats(text, userInput, time)
+  const { userInput, current, clearInput } = useType(text, status)
+  const { wpm, accuracy } = useStats(text, userInput, counter)
+
+  useEffect(() => {
+    if (status === 'IDLE' && userInput.length > 0) {
+      startTest()
+      startCounter()
+    }
+  }, [status, userInput.length, startTest, startCounter])
+
+  useEffect(() => {
+    if (
+      (mode === 'timed' && counter === duration) ||
+      userInput.length === text.length
+    ) {
+      finishTest()
+      stopCounter()
+    }
+  }, [
+    mode,
+    counter,
+    duration,
+    userInput.length,
+    text.length,
+    finishTest,
+    stopCounter,
+  ])
 
   const changeLevel = useCallback(
     (level: Level) => {
       setLevel(level)
       setText(() => getRandomText(level))
       clearInput()
-      reset()
+      resetTest()
+      resetCounter()
     },
-    [reset],
+    [clearInput, resetTest, resetCounter],
   )
 
   const changeMode = useCallback(
-    (mode: Mode) => {
-      setMode(mode)
+    (newMode: Mode) => {
+      setMode(newMode)
       clearInput()
-      reset()
+      resetTest()
+      resetCounter()
     },
-    [reset],
+    [clearInput, resetTest, resetCounter],
   )
 
   const handleRestart = useCallback(() => {
-    const newText = getRandomText(level)
-    setText(newText)
     clearInput()
-    reset()
-  }, [level, reset])
+    resetTest()
+    resetCounter()
+  }, [clearInput, resetTest, resetCounter])
+
+  const time = duration && mode === 'timed' ? duration - counter : counter
 
   return (
     <div className="mx-auto max-w-[1280px] px-4 md:px-8">
       <Header bestScore={0} />
 
       <div className="flex flex-col justify-between gap-y-4 border-b border-neutral-700 pb-4 *:leading-none lg:flex-row lg:items-center">
-        <Stats stats={{ wpm, accuracy, time }} />
+        <Stats
+          stats={{
+            wpm,
+            accuracy,
+            time,
+          }}
+        />
 
         <div className="desktop flex items-center gap-8 max-[680px]:hidden max-lg:justify-between">
           <CustomLabels
