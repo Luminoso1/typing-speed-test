@@ -3,7 +3,7 @@ export default function RestartButton({ restart }: { restart: () => void }) {
     <button
       type="button"
       onClick={restart}
-      className="focus text-neutral-0 flex cursor-pointer items-center gap-2 rounded-xl bg-neutral-800 px-6 py-3 text-lg font-bold"
+      className="focus text-neutral-0 mx-auto flex cursor-pointer items-center gap-2 rounded-xl bg-neutral-800 px-6 py-3 text-lg font-bold"
     >
       Restart Test
       <svg
