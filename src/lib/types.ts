@@ -10,7 +10,9 @@ export type Level = 'easy' | 'medium' | 'hard'
 
 export type Mode = 'timed' | 'passage'
 
-export type Status = 'IDLE' | 'TYPING' | 'FINISHED'
+export type Duration = 15 | 30 | 60 | 120
+
+export type Status = 'IDLE' | 'TYPING' | 'FINISHED' | 'PAUSED'
 
 export type Option<T extends string> = {
   label: string

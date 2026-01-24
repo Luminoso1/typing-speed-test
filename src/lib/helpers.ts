@@ -33,3 +33,23 @@ export const calculateClass = (
 
   return `${base} ${isCurrent ? 'cursor' : ''}`
 }
+
+const WPM_CHARS_PER_WORD = 5
+
+export const calcAccuracy = (corrects: number, total: number) => {
+  if (total === 0) return 100
+
+  const result = Math.round((corrects / total) * 100)
+
+  return Math.max(0, result)
+}
+
+export const calcWpm = (corrects: number, ms: number) => {
+  const elapsedMinutes = ms / 60000
+
+  if (elapsedMinutes < 1 / 60) return 0
+
+  const result = Math.round(corrects / WPM_CHARS_PER_WORD / elapsedMinutes)
+
+  return Math.max(0, result)
+}
