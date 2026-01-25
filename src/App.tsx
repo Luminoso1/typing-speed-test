@@ -11,11 +11,9 @@ import * as Logic from './store/reducer'
 import { LEVELS, MODES } from './lib/constants'
 import { calcAccuracy, calcWpm } from './lib/helpers'
 import type { Level, Mode } from './lib/types'
-import useType from './hooks/useType'
 
 function App() {
   const [state, dispatch] = useReducer(Logic.reducer, Logic.INITIAL_STATE)
-  useType(dispatch)
 
   const startedAtRef = useRef<number>(null)
 
@@ -64,6 +62,15 @@ function App() {
     }
   }, [state.status, wpm, state.bestScore])
 
+  const hiddenInputRef = useRef<HTMLInputElement>(null)
+
+  const handleHiddenInputFocus = () => hiddenInputRef.current?.focus()
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const value = event.target.value
+    dispatch({ type: 'SET_INPUT', payload: value })
+  }
+
   return (
     <div className="mx-auto max-w-[1280px] px-4 md:px-8">
       <Header bestScore={state.bestScore} />
@@ -88,7 +95,7 @@ function App() {
             <li className="rounded-lg border border-neutral-700 px-6 py-4 xl:w-48">
               <h3 className="text-xl text-neutral-400">Characters:</h3>
               <h4 className="text-2xl font-bold">
-                <span className="">{state.text.length}</span>/
+                <span>{state.text.length}</span>/
                 <span className="text-green-500">{corrects}</span>/
                 <span className="text-red-500">{state.errors.size}</span>
               </h4>
@@ -153,11 +160,25 @@ function App() {
             </div>
           </div>
 
-          <TypeBox
-            text={state.text}
-            userInput={state.input}
-            current={state.input.length}
+          <input
+            type="text"
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            autoFocus
+            value={state.input}
+            onChange={handleChange}
+            ref={hiddenInputRef}
+            className="pointer-events-none absolute top-0 left-0"
           />
+
+          <div onClick={handleHiddenInputFocus}>
+            <TypeBox
+              text={state.text}
+              userInput={state.input}
+              current={state.input.length}
+            />
+          </div>
 
           <div className="mt-16 mb-8 h-[1px] w-full self-stretch bg-neutral-700"></div>
 

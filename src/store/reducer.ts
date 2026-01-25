@@ -85,21 +85,18 @@ export function reducer(state: State, action: Action): State {
       return { ...state, duration: action.payload }
 
     case 'SET_INPUT': {
-      const key = action.payload
+      const value = action.payload
 
-      const { text, input } = state
+      const { text } = state
 
-      if (key === 'Backspace')
-        return { ...state, input: state.input.slice(0, -1) }
-
-      const nextInput = input + key
-      const isError = text[nextInput.length - 1] !== key
+      const current = value.length - 1
+      const isError = text[current] !== value[current]
 
       const nextErrors = isError
-        ? new Set([...state.errors, nextInput.length - 1])
+        ? new Set([...state.errors, current])
         : state.errors
 
-      const nextState = { ...state, input: nextInput, errors: nextErrors }
+      const nextState = { ...state, input: value, errors: nextErrors }
 
       if (checkFinished(nextState)) {
         return { ...nextState, status: 'FINISHED' }
