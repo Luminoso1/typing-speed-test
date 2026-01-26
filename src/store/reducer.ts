@@ -15,8 +15,8 @@ export type State = {
 
 export type Action =
   | { type: 'START' }
+  | { type: 'PAUSE' }
   | { type: 'RESET' }
-  | { type: 'FINISH' }
   | { type: 'TICK' }
   | { type: 'SET_LEVEL'; payload: Level }
   | { type: 'SET_MODE'; payload: Mode }
@@ -41,18 +41,18 @@ export function reducer(state: State, action: Action): State {
     case 'START':
       return { ...state, status: 'TYPING' }
 
+    case 'PAUSE':
+      return { ...state, status: 'PAUSED' }
+
     case 'RESET':
       return {
-        ...state,
-        status: 'IDLE',
-        counter: 0,
-        input: '',
+        ...INITIAL_STATE,
+        level: state.level,
+        mode: state.mode,
+        duration: state.duration,
         text: getRandomText(state.level),
-        errors: new Set(),
+        bestScore: state.bestScore,
       }
-
-    case 'FINISH':
-      return { ...state, status: 'FINISHED' }
 
     case 'TICK': {
       if (state.status !== 'TYPING') return state
@@ -68,29 +68,46 @@ export function reducer(state: State, action: Action): State {
     case 'SET_LEVEL': {
       const level = action.payload
       return {
-        ...state,
-        status: 'IDLE',
+        ...INITIAL_STATE,
         level,
-        counter: 0,
-        input: '',
+        mode: state.mode,
+        duration: state.duration,
         text: getRandomText(level),
-        errors: new Set(),
+        bestScore: state.bestScore,
       }
     }
 
-    case 'SET_MODE':
-      return { ...state, mode: action.payload }
+    case 'SET_MODE': {
+      const mode = action.payload
+      return {
+        ...INITIAL_STATE,
+        mode,
+        level: state.level,
+        duration: state.duration,
+        text: state.text,
+        bestScore: state.bestScore,
+      }
+    }
 
-    case 'SET_DURATION':
-      return { ...state, duration: action.payload }
-
+    case 'SET_DURATION': {
+      const duration = action.payload
+      return {
+        ...INITIAL_STATE,
+        duration,
+        level: state.level,
+        mode: state.mode,
+        text: state.text,
+        bestScore: state.bestScore,
+      }
+    }
     case 'SET_INPUT': {
       const value = action.payload
 
-      const { text } = state
-
       const current = value.length - 1
-      const isError = text[current] !== value[current]
+      const expected = state.text[current]
+      const typed = value[current]
+
+      const isError = expected !== typed
 
       const nextErrors = isError
         ? new Set([...state.errors, current])

@@ -16,12 +16,18 @@ function App() {
   const [state, dispatch] = useReducer(Logic.reducer, Logic.INITIAL_STATE)
 
   const startedAtRef = useRef<number>(null)
+  const pausedAtRef = useRef<number>(null)
 
   const corrects = state.input.length - state.errors.size
 
   const accuracy = calcAccuracy(corrects, state.input.length)
 
-  const elapsedMs = startedAtRef.current ? Date.now() - startedAtRef.current : 0
+  const elapsedMs =
+    startedAtRef.current && state.status !== 'IDLE'
+      ? state.status === 'PAUSED'
+        ? pausedAtRef.current! - startedAtRef.current
+        : Date.now() - startedAtRef.current
+      : 0
 
   const wpm = useMemo(() => calcWpm(corrects, elapsedMs), [corrects, elapsedMs])
 
@@ -34,13 +40,24 @@ function App() {
   const changeMode = (mode: Mode) =>
     dispatch({ type: 'SET_MODE', payload: mode })
 
-  // start  when [input>0] && [status:IDLE]
-  useEffect(() => {
-    if (state.status === 'IDLE' && state.input.length > 0) {
-      dispatch({ type: 'START' })
-      startedAtRef.current = Date.now()
+  // start  when [status:IDLE]
+  const start = () => {
+    dispatch({ type: 'START' })
+    startedAtRef.current = Date.now()
+
+    if (startedAtRef.current && pausedAtRef.current) {
+      console.log('Hello there')
+      const pauseDuration = Date.now() - pausedAtRef.current
+      startedAtRef.current = startedAtRef.current + pauseDuration
+
+      pausedAtRef.current = null
     }
-  }, [state.status, state.input.length])
+  }
+
+  const pause = () => {
+    dispatch({ type: 'PAUSE' })
+    pausedAtRef.current = Date.now()
+  }
 
   // tick -> counter when [status:TYPING]
   useEffect(() => {
@@ -73,6 +90,10 @@ function App() {
 
   return (
     <div className="mx-auto max-w-[1280px] px-4 md:px-8">
+      {state.status === 'TYPING' && (
+        <div onClick={pause} className="absolute inset-0 bg-neutral-900"></div>
+      )}
+
       <Header bestScore={state.bestScore} />
 
       {state.status === 'FINISHED' && (
@@ -169,14 +190,34 @@ function App() {
             value={state.input}
             onChange={handleChange}
             ref={hiddenInputRef}
-            className="pointer-events-none absolute top-0 left-0"
+            aria-hidden="true"
+            className="pointer-events-none absolute top-0 left-0 h-1 w-1 opacity-0"
           />
 
-          <div onClick={handleHiddenInputFocus}>
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={handleHiddenInputFocus}
+            className="relative"
+          >
+            {state.status !== 'TYPING' && (
+              <div
+                onClick={start}
+                className="absolute inset-0 z-20 flex cursor-pointer flex-col items-center justify-center backdrop-blur-sm"
+              >
+                <button className="cursor-pointer rounded-xl bg-blue-600 px-6 py-4 text-lg font-semibold transition-all duration-300 hover:bg-blue-600/80">
+                  Start Typing Test
+                </button>
+                <p className="mt-4 text-lg font-semibold opacity-80">
+                  Or click the text and start typing
+                </p>
+              </div>
+            )}
+
             <TypeBox
               text={state.text}
               userInput={state.input}
-              current={state.input.length}
+              errors={state.errors}
             />
           </div>
 
