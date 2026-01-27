@@ -3,13 +3,11 @@ import { useEffect, useReducer, useRef, useMemo } from 'react'
 import Header from './components/Header'
 import TypeBox from './components/TypeBox'
 import Stats from './components/Stats'
-import CustomSelect from './components/CustomSelect'
-import CustomLabels from './components/CustomLabels'
+import Settings from './components/Settings'
 import RestartButton from './components/RestartButton'
 import Result from './components/Result'
 import * as Logic from './store/reducer'
 
-import { LEVELS, MODES } from './lib/constants'
 import { calcAccuracy, calcWpm } from './lib/helpers'
 import type { Level, Mode } from './lib/types'
 
@@ -33,13 +31,14 @@ function App() {
   const wpm = useMemo(() => calcWpm(corrects, elapsedMs), [corrects, elapsedMs])
 
   const time =
-    state.mode === 'timed' ? state.duration - state.counter : state.counter
+    state.mode !== 'passage' ? state.duration - state.counter : state.counter
 
   const changeLevel = (level: Level) =>
     dispatch({ type: 'SET_LEVEL', payload: level })
 
-  const changeMode = (mode: Mode) =>
+  const changeMode = (mode: Mode) => {
     dispatch({ type: 'SET_MODE', payload: mode })
+  }
 
   // start  when [status:IDLE]
   const start = () => {
@@ -93,7 +92,10 @@ function App() {
   return (
     <div className="mx-auto max-w-[1280px] px-4 md:px-8">
       {state.status === 'TYPING' && (
-        <div onClick={pause} className="absolute inset-0 z-20"></div>
+        <div
+          onClick={pause}
+          className="absolute inset-0 z-20 bg-neutral-900"
+        ></div>
       )}
 
       <Header bestScore={state.bestScore} />
@@ -122,42 +124,12 @@ function App() {
               }}
             />
 
-            <div className="desktop flex items-center gap-8 max-[680px]:hidden max-lg:justify-between">
-              <CustomLabels
-                title="Difficulty"
-                name="desktop-levels"
-                actual={state.level}
-                options={LEVELS}
-                onChange={changeLevel}
-              />
-
-              <div className="w-[1px] self-stretch bg-neutral-700"></div>
-
-              <CustomLabels
-                title="Mode"
-                name="desktop-modes"
-                actual={state.mode}
-                options={MODES}
-                onChange={changeMode}
-              />
-            </div>
-
-            <div className="hidden gap-2 max-[680px]:flex">
-              <CustomSelect
-                title="Difficulty"
-                name="mobile-levels"
-                actual={state.level}
-                options={LEVELS}
-                onChange={changeLevel}
-              />
-              <CustomSelect
-                title="Mode"
-                name="mobile-modes"
-                actual={state.mode}
-                options={MODES}
-                onChange={changeMode}
-              />
-            </div>
+            <Settings
+              level={state.level}
+              mode={state.mode}
+              onChangeLevel={changeLevel}
+              onChangeMode={changeMode}
+            />
           </div>
 
           <input
@@ -202,7 +174,7 @@ function App() {
 
           <div className="mt-16 mb-8 h-[1px] w-full self-stretch bg-neutral-700"></div>
 
-          <RestartButton restart={() => dispatch({ type: 'RESET' })} />
+          <RestartButton restart={handleRestart} />
         </>
       )}
     </div>

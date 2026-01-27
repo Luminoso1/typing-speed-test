@@ -1,6 +1,6 @@
 import type { LabelsProps } from '../lib/types'
 
-export default function CustomLabels<T extends string>({
+export default function CustomLabel<T extends string>({
   title,
   name,
   actual,
