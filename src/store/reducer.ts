@@ -11,6 +11,8 @@ export type State = {
   input: string
   errors: Set<number>
   bestScore: number
+  isNewRecord: boolean
+  hasCompletedOnce: boolean
 }
 
 export type Action =
@@ -34,12 +36,18 @@ export const INITIAL_STATE: State = {
   input: '',
   errors: new Set(),
   bestScore: 0,
+  isNewRecord: false,
+  hasCompletedOnce: false,
 }
 
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'START':
-      return { ...state, status: 'TYPING' }
+      return {
+        ...state,
+        status: 'TYPING',
+        hasCompletedOnce: state.bestScore > 0,
+      }
 
     case 'PAUSE':
       return { ...state, status: 'PAUSED' }
@@ -52,6 +60,8 @@ export function reducer(state: State, action: Action): State {
         duration: state.duration,
         text: getRandomText(state.level),
         bestScore: state.bestScore,
+        isNewRecord: false,
+        hasCompletedOnce: state.hasCompletedOnce,
       }
 
     case 'TICK': {
@@ -74,6 +84,8 @@ export function reducer(state: State, action: Action): State {
         duration: state.duration,
         text: getRandomText(level),
         bestScore: state.bestScore,
+        isNewRecord: false,
+        hasCompletedOnce: state.hasCompletedOnce,
       }
     }
 
@@ -86,6 +98,8 @@ export function reducer(state: State, action: Action): State {
         duration: state.duration,
         text: state.text,
         bestScore: state.bestScore,
+        isNewRecord: false,
+        hasCompletedOnce: state.hasCompletedOnce,
       }
     }
 
@@ -98,9 +112,12 @@ export function reducer(state: State, action: Action): State {
         mode: state.mode,
         text: state.text,
         bestScore: state.bestScore,
+        isNewRecord: false,
+        hasCompletedOnce: state.hasCompletedOnce,
       }
     }
     case 'SET_INPUT': {
+      if (state.status !== 'TYPING') return state
       const value = action.payload
 
       const current = value.length - 1
@@ -122,9 +139,15 @@ export function reducer(state: State, action: Action): State {
       return nextState
     }
 
-    case 'SET_BEST_SCORE':
-      return { ...state, bestScore: action.payload }
-
+    case 'SET_BEST_SCORE': {
+      const currentWpm = action.payload
+      const isNewRecord = state.bestScore !== 0 && currentWpm > state.bestScore
+      return {
+        ...state,
+        bestScore: action.payload,
+        isNewRecord,
+      }
+    }
     default:
       return state
   }

@@ -6,6 +6,7 @@ import Stats from './components/Stats'
 import CustomSelect from './components/CustomSelect'
 import CustomLabels from './components/CustomLabels'
 import RestartButton from './components/RestartButton'
+import Result from './components/Result'
 import * as Logic from './store/reducer'
 
 import { LEVELS, MODES } from './lib/constants'
@@ -46,7 +47,6 @@ function App() {
     startedAtRef.current = Date.now()
 
     if (startedAtRef.current && pausedAtRef.current) {
-      console.log('Hello there')
       const pauseDuration = Date.now() - pausedAtRef.current
       startedAtRef.current = startedAtRef.current + pauseDuration
 
@@ -88,48 +88,27 @@ function App() {
     dispatch({ type: 'SET_INPUT', payload: value })
   }
 
+  const handleRestart = () => dispatch({ type: 'RESET' })
+
   return (
     <div className="mx-auto max-w-[1280px] px-4 md:px-8">
       {state.status === 'TYPING' && (
-        <div onClick={pause} className="absolute inset-0 bg-neutral-900"></div>
+        <div onClick={pause} className="absolute inset-0 z-20"></div>
       )}
 
       <Header bestScore={state.bestScore} />
 
       {state.status === 'FINISHED' && (
-        <div className="text-center">
-          <h2 className="text-[40px] font-bold">Test Complete!</h2>
-          <p className="text-xl text-neutral-400">
-            Solid run. Keep pushing to beat your high score.
-          </p>
-          <ul className="mt-12 mb-14 flex flex-col justify-center gap-x-5 gap-y-2.5 text-left md:flex-row">
-            <li className="rounded-lg border border-neutral-700 px-6 py-4 xl:w-40">
-              <h3 className="text-xl text-neutral-400">WPM:</h3>
-              <h4 className="text-2xl font-bold">{wpm}</h4>
-            </li>
-
-            <li className="rounded-lg border border-neutral-700 px-6 py-4 xl:w-40">
-              <h3 className="text-xl text-neutral-400">Accuracy:</h3>
-              <h4 className="text-2xl font-bold">{accuracy}%</h4>
-            </li>
-
-            <li className="rounded-lg border border-neutral-700 px-6 py-4 xl:w-48">
-              <h3 className="text-xl text-neutral-400">Characters:</h3>
-              <h4 className="text-2xl font-bold">
-                <span>{state.text.length}</span>/
-                <span className="text-green-500">{corrects}</span>/
-                <span className="text-red-500">{state.errors.size}</span>
-              </h4>
-            </li>
-          </ul>
-
-          <button
-            onClick={() => dispatch({ type: 'RESET' })}
-            className="bg-neutral-0 focus cursor-pointer rounded-xl px-4 py-2.5 text-xl font-semibold text-neutral-900"
-          >
-            Go Again
-          </button>
-        </div>
+        <Result
+          isNewRecord={state.isNewRecord}
+          hasCompletedOnce={state.hasCompletedOnce}
+          wpm={wpm}
+          accuracy={accuracy}
+          textLength={state.text.length}
+          corrects={corrects}
+          errors={state.errors.size}
+          onRestart={handleRestart}
+        />
       )}
 
       {state.status !== 'FINISHED' && (
@@ -198,7 +177,7 @@ function App() {
             role="button"
             tabIndex={0}
             onClick={handleHiddenInputFocus}
-            className="relative"
+            className="relative z-20"
           >
             {state.status !== 'TYPING' && (
               <div
