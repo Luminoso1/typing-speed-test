@@ -2,33 +2,26 @@ import CustomLabel from './CustomLabel'
 import CustomSelect from './CustomSelect'
 import { LEVELS, MODES } from '../lib/constants'
 
-type SettingsProps = {
-  level: string
-  mode: string
-  onChangeLevel: (l: any) => void
-  onChangeMode: (m: any) => void
-}
+import { useConfig, useActions } from '../store/context'
 
-export default function Settings({
-  level,
-  mode,
-  onChangeLevel,
-  onChangeMode,
-}: SettingsProps) {
+export default function Settings() {
+  const { level, mode } = useConfig()
+  const { setLevel, setMode } = useActions()
+
   const configs = [
     {
       title: 'Difficulty',
       name: 'level',
       actual: level,
       options: LEVELS,
-      onChange: onChangeLevel,
+      onChange: setLevel,
     },
     {
       title: 'Mode',
       name: 'mode',
       actual: mode,
       options: MODES,
-      onChange: onChangeMode,
+      onChange: setMode,
     },
   ]
 

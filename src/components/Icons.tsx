@@ -89,21 +89,21 @@ export const Party = (props: Props) => {
           />
 
           <path
-            d="M17.1927 37.5493C12.2551 37.168 8 41.7656"
+            d="M17.1927 37.5493 L 8 41.7656"
             stroke="#F4DC73"
             strokeWidth="3"
             strokeLinecap="round"
           />
 
           <path
-            d="M33.9511 33.8152C25.2955 24.8846 12.0371 28.6597"
+            d="M33.9511 33.8152 L 12.0371 28.6597"
             stroke="#F4DC73"
             strokeWidth="3"
             strokeLinecap="round"
           />
 
           <path
-            d="M36.9355 9.33333C31.9229 16.196 37.4752 24.4469"
+            d="M36.9355 9.33333 L 37.4752 24.4469"
             stroke="#F4DC73"
             strokeWidth="3"
             strokeLinecap="round"
@@ -118,35 +118,35 @@ export const Party = (props: Props) => {
           <path
             d="M17.1927 37.5493C17.1927 37.5493 12.2551 37.168 8 41.7656"
             stroke="#F4DC73"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
 
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M25.5262 15.9206C25.5262 17.6668 24.1095 19.0835 22.3634 19.0835C20.6172 19.0835 19.2031 17.6668 19.2031 15.9206C19.2031 14.1745 20.6172 12.7604 22.3634 12.7604C24.1095 12.7604 25.5262 14.1745 25.5262 15.9206Z"
             stroke="#F4DC73"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
 
           <path
             d="M33.9511 33.8152C33.9511 33.8152 25.2955 24.8846 12.0371 28.6597"
             stroke="#F4DC73"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
 
           <path
             d="M36.9355 9.33333C36.9355 9.33333 31.9229 16.196 37.4752 24.4469"
             stroke="#F4DC73"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </g>
       </svg>
