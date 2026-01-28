@@ -45,6 +45,7 @@ type ActionsType = {
 
 type Typing = {
   input: string
+  corrects: number
   errors: Set<number>
 }
 

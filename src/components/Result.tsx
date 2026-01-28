@@ -7,7 +7,7 @@ export default function Results() {
   const { text } = useConfig()
   const { wpm, accuracy, isNewRecord, hasCompletedOnce } = useStats()
   const { reset } = useActions()
-  const { errors } = useTyping()
+  const { errors, corrects } = useTyping()
 
   const finishUI = useMemo(() => {
     if (isNewRecord) {
@@ -51,8 +51,8 @@ export default function Results() {
           <h3 className="text-xl text-neutral-400">Characters:</h3>
           <h4 className="text-2xl font-bold">
             <span>{text.length}</span>/
-            <span className="text-green-500">{0}</span>/
-            <span className="text-red-500">{errors}</span>
+            <span className="text-green-500">{corrects}</span>/
+            <span className="text-red-500">{errors.size}</span>
           </h4>
         </li>
       </ul>

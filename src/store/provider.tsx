@@ -23,8 +23,6 @@ export default function Provider({ children }: { children: React.ReactNode }) {
 
   const wpm = useMemo(() => calcWpm(corrects, elapsedMs), [corrects, elapsedMs])
 
-  console.log({ wpm, ms: elapsedMs })
-
   const time =
     state.mode !== 'passage' ? state.duration - state.counter : state.counter
 
@@ -125,7 +123,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     [start, pause, resume, reset, setLevel, setMode, setDuration, setInput],
   )
 
-  const typing = useMemo(() => ({ input, errors }), [input, errors])
+  const typing = useMemo(() => ({ input, errors, corrects }), [input, errors])
 
   return (
     <Config value={config}>
