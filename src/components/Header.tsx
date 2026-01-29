@@ -30,10 +30,7 @@ export default function Header({ bestScore }: { bestScore: number }) {
           </defs>
         </svg>
         <div className="max-sm:hidden">
-          <h1 className="text-2xl font-bold">Typing Speed Test</h1>
-          <p className="text-sm text-neutral-400">
-            Type as fast as you can in 60 seconds
-          </p>
+          <h1 className="text-2xl font-bold">TypeDev</h1>
         </div>
       </div>
 
@@ -51,8 +48,7 @@ export default function Header({ bestScore }: { bestScore: number }) {
           />
         </svg>
         <p className="text-lg text-neutral-400">
-          <span className="max-sm:hidden">Personal </span> Best:{' '}
-          <span className="text-neutral-0 text-lg">{bestScore} WPM</span>
+          Best: <span className="text-neutral-0 text-lg">{bestScore} WPM</span>
         </p>
       </div>
     </header>

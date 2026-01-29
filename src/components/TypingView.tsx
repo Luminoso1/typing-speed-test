@@ -1,25 +1,28 @@
 import { useRef } from 'react'
 import TypeBox from '../components/TypeBox'
-import Stats from '../components/Stats'
 import Settings from '../components/Settings'
 import RestartButton from '../components/RestartButton'
+import Stats from '../components/Stats'
 
 import { useConfig, useActions, useTyping } from '../store/context'
 
 export default function TypingView() {
+  const { reset } = useActions()
+
   return (
     <>
       <Header />
       <Main />
-      <Footer />
+      <RestartButton restart={reset} />
     </>
   )
 }
 
 const Header = () => {
+  const { status } = useConfig()
   return (
-    <div className="flex flex-col justify-between gap-y-4 border-b border-neutral-700 pb-4 *:leading-none lg:flex-row lg:items-center">
-      <Stats />
+    <div className="flex flex-col justify-end gap-y-4 border-b border-neutral-700 pb-4 *:leading-none lg:flex-row lg:items-center">
+      {status === 'TYPING' && <Stats />}
       <Settings />
     </div>
   )
@@ -27,7 +30,7 @@ const Header = () => {
 
 const Main = () => {
   const { status, text } = useConfig()
-  const { start, resume, setInput, pause } = useActions()
+  const { start, resume, setInput } = useActions()
   const { input, errors } = useTyping()
 
   const hiddenInputRef = useRef<HTMLInputElement>(null)
@@ -45,9 +48,6 @@ const Main = () => {
   }
   return (
     <>
-      {status === 'TYPING' && (
-        <div onClick={pause} className="absolute inset-0 bg-neutral-900"></div>
-      )}
       <input
         type="text"
         autoCapitalize="off"
@@ -88,16 +88,5 @@ const ModalStart = ({ start }: { start: () => void }) => {
         Or click the text and start typing
       </p>
     </div>
-  )
-}
-
-const Footer = () => {
-  const { reset } = useActions()
-  return (
-    <>
-      <div className="mt-16 mb-8 h-[1px] w-full self-stretch bg-neutral-700"></div>
-
-      <RestartButton restart={reset} />
-    </>
   )
 }
