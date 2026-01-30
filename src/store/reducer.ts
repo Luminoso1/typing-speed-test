@@ -18,7 +18,8 @@ export type State = {
 export type Action =
   | { type: 'START' }
   | { type: 'PAUSE' }
-  | { type: 'RESET' }
+  | { type: 'RESTART' }
+  | { type: 'NEXT' }
   | { type: 'TICK' }
   | { type: 'SET_LEVEL'; payload: Level }
   | { type: 'SET_MODE'; payload: Mode }
@@ -52,16 +53,23 @@ export function reducer(state: State, action: Action): State {
     case 'PAUSE':
       return { ...state, status: 'PAUSED' }
 
-    case 'RESET':
+    case 'RESTART':
       return {
-        ...INITIAL_STATE,
-        level: state.level,
-        mode: state.mode,
-        duration: state.duration,
+        ...state,
+        status: 'IDLE',
+        counter: 0,
+        input: '',
+        errors: new Set(),
+      }
+
+    case 'NEXT':
+      return {
+        ...state,
+        status: 'IDLE',
+        counter: 0,
+        input: '',
         text: getRandomText(state.level),
-        bestScore: state.bestScore,
-        isNewRecord: false,
-        hasCompletedOnce: state.hasCompletedOnce,
+        errors: new Set(),
       }
 
     case 'TICK': {

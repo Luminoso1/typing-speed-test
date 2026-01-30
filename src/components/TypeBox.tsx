@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { CharacterState } from '../lib/types.ts'
-import CharacterItem from './CharacterItem'
+import Char from './Char'
 
 type Props = {
   text: string
@@ -41,7 +41,7 @@ export default function TypeBox({ text, userInput, errors }: Props) {
           }
           const isCurrent = index === userInput.length
           return (
-            <CharacterItem
+            <Char
               key={`${char}-${index}`}
               index={index}
               value={char}

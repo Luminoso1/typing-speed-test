@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
 import { Check, Party } from './Icons'
-
+import Button from './Button'
 import { useConfig, useStats, useActions, useTyping } from '../store/context'
 
 export default function Results() {
   const { text } = useConfig()
   const { wpm, accuracy, isNewRecord, hasCompletedOnce } = useStats()
-  const { reset } = useActions()
+  const { next } = useActions()
   const { errors, corrects } = useTyping()
 
   const finishUI = useMemo(() => {
@@ -57,12 +57,12 @@ export default function Results() {
         </li>
       </ul>
 
-      <button
-        onClick={reset}
-        className="bg-neutral-0 focus cursor-pointer rounded-xl px-4 py-2.5 text-xl font-semibold text-neutral-900"
+      <Button
+        onClick={next}
+        className="bg-neutral-0! focus mx-auto max-w-40 rounded-xl p-4! text-xl font-semibold text-neutral-900 hover:bg-neutral-300!"
       >
         Go Again
-      </button>
+      </Button>
     </div>
   )
 }

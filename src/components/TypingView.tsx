@@ -1,19 +1,17 @@
 import { useRef } from 'react'
 import TypeBox from '../components/TypeBox'
-import Settings from '../components/Settings'
-import RestartButton from '../components/RestartButton'
 import Stats from '../components/Stats'
+import Button from '../components/Button'
+import { Restart, Next } from '../components/Icons'
 
 import { useConfig, useActions, useTyping } from '../store/context'
 
 export default function TypingView() {
-  const { reset } = useActions()
-
   return (
     <>
       <Header />
       <Main />
-      <RestartButton restart={reset} />
+      <Footer />
     </>
   )
 }
@@ -21,16 +19,15 @@ export default function TypingView() {
 const Header = () => {
   const { status } = useConfig()
   return (
-    <div className="flex flex-col justify-end gap-y-4 border-b border-neutral-700 pb-4 *:leading-none lg:flex-row lg:items-center">
-      {status === 'TYPING' && <Stats />}
-      <Settings />
+    <div className="relative z-20 flex min-h-16 flex-col justify-end *:leading-none lg:flex-row lg:items-center">
+      {status == 'TYPING' && <Stats />}
     </div>
   )
 }
 
 const Main = () => {
   const { status, text } = useConfig()
-  const { start, resume, setInput } = useActions()
+  const { start, pause, resume, setInput } = useActions()
   const { input, errors } = useTyping()
 
   const hiddenInputRef = useRef<HTMLInputElement>(null)
@@ -38,16 +35,17 @@ const Main = () => {
   const handleHiddenInputFocus = () => hiddenInputRef.current?.focus()
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    if (status === 'IDLE') start()
+    if (status === 'PAUSED') resume()
     const value = event.target.value
     setInput(value)
   }
 
-  const handleStart = () => {
-    if (status === 'PAUSED') resume()
-    if (status === 'IDLE') start()
-  }
   return (
     <>
+      {status === 'TYPING' && (
+        <div onClick={pause} className="absolute inset-0 bg-neutral-900"></div>
+      )}
       <input
         type="text"
         autoCapitalize="off"
@@ -67,26 +65,28 @@ const Main = () => {
         onClick={handleHiddenInputFocus}
         className="relative z-20"
       >
-        {status !== 'TYPING' && <ModalStart start={handleStart} />}
-
         <TypeBox text={text} userInput={input} errors={errors} />
       </div>
     </>
   )
 }
 
-const ModalStart = ({ start }: { start: () => void }) => {
+const Footer = () => {
+  const { status } = useConfig()
+  const { restart, next } = useActions()
   return (
-    <div
-      onClick={start}
-      className="absolute inset-0 z-20 flex cursor-pointer flex-col items-center justify-center backdrop-blur-sm"
-    >
-      <button className="cursor-pointer rounded-xl bg-blue-600 px-6 py-4 text-lg font-semibold transition-all duration-300 hover:bg-blue-600/80">
-        Start Typing Test
-      </button>
-      <p className="mt-4 text-lg font-semibold opacity-80">
-        Or click the text and start typing
-      </p>
+    <div className="flex items-center gap-3 sm:justify-center">
+      {status === 'TYPING' && (
+        <Button aria-label="Restart Test" onClick={restart}>
+          <Restart className="size-7" />
+          <span className="md:hidden">Restart Test</span>
+        </Button>
+      )}
+
+      <Button aria-label="Next Test" onClick={next}>
+        <Next className="size-7" />
+        <span className="md:hidden">Next Text</span>
+      </Button>
     </div>
   )
 }

@@ -57,7 +57,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     pausedAtRef.current = Date.now()
   }
 
-  const reset = () => dispatch({ type: 'RESET' })
+  const restart = () => dispatch({ type: 'RESTART' })
+
+  const next = () => dispatch({ type: 'NEXT' })
 
   // tick -> counter when [status:TYPING]
   useEffect(() => {
@@ -114,13 +116,24 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       start,
       pause,
       resume,
-      reset,
+      restart,
+      next,
       setLevel,
       setMode,
       setDuration,
       setInput,
     }),
-    [start, pause, resume, reset, setLevel, setMode, setDuration, setInput],
+    [
+      start,
+      pause,
+      resume,
+      restart,
+      next,
+      setLevel,
+      setMode,
+      setDuration,
+      setInput,
+    ],
   )
 
   const typing = useMemo(() => ({ input, errors, corrects }), [input, errors])
