@@ -99,11 +99,6 @@ body {
   }
 }
 
-.type-box span {
-  position: relative;
-  font-size: 2.5rem;
-}
-
 .cursor::after {
   content: '';
   position: absolute;
@@ -113,14 +108,6 @@ body {
   height: 2px;
   background-color: #fff;
   animation: blink 1s step-end infinite;
-}
-
-.text-empty {
-  color: var(--color-neutral-400);
-}
-
-.text-filled {
-  color: var(--color-green-500);
 }
 
 .text-error {
@@ -135,6 +122,16 @@ body {
   width: 100%;
   height: 2px;
   background-color: var(--color-red-500);
+}
+
+.text-fixed::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-blue-400);
 }
 
 @keyframes blink {

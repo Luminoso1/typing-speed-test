@@ -1,6 +1,6 @@
 import { forwardRef, memo } from 'react'
+import clsx from 'clsx'
 import type { Character } from '../lib/types'
-import { calculateClass } from '../lib/helpers'
 
 interface CharacterProps extends Character {
   isCurrent?: boolean
@@ -11,8 +11,14 @@ const CharacterItem = memo(
     { value, state, isCurrent },
     ref,
   ) {
+    const spanClasses = clsx('relative text-[2.5rem] transition-colors duration-300', {
+      'text-neutral-600': state === 'EMPTY',
+      'text-neutral-300/80': state === 'FILLED',
+      'text-error': state === 'ERROR',
+      cursor: isCurrent,
+    })
     return (
-      <span ref={ref} className={calculateClass(state, isCurrent)}>
+      <span ref={ref} className={spanClasses}>
         {value}
       </span>
     )
