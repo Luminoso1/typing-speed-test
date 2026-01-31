@@ -2,6 +2,7 @@ import clsx from 'clsx'
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode
+  icon?: boolean
 }
 
 export default function Button({
@@ -9,16 +10,21 @@ export default function Button({
   className,
   'aria-label': ariaLabel,
   disabled,
+  icon,
   ...rest
 }: ButtonProps) {
   return (
-    <div className="group relative w-full sm:w-auto">
+    <div className="group relative">
       <button
         {...rest}
         disabled={disabled}
         className={clsx(
-          'items-cencer flex min-h-10 w-full min-w-10 cursor-pointer justify-center gap-2 rounded-lg bg-neutral-700/30 p-2 px-4 py-3 transition-colors duration-300 hover:bg-neutral-700/50 disabled:cursor-not-allowed disabled:opacity-60 md:px-2 md:py-2',
+          'focus w-full cursor-pointer rounded-lg p-4 transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:p-3',
           className,
+          {
+            'flex min-h-10 min-w-10 items-center justify-center gap-2 bg-neutral-700/30 transition-transform duration-200 hover:bg-neutral-700/40':
+              icon,
+          },
         )}
       >
         {children}

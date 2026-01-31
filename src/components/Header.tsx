@@ -1,7 +1,11 @@
+import { useState } from 'react'
 import Button from './Button'
+import Settings from './Settings'
 import { Keyboard, Trophy, Config } from './Icons'
 
 export default function Header({ bestScore }: { bestScore: number }) {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <header className="flex items-center justify-between pt-8 pb-16">
       <div className="flex items-center gap-2">
@@ -22,10 +26,17 @@ export default function Header({ bestScore }: { bestScore: number }) {
         <Button
           aria-label="Show settings"
           className="min-h-auto! min-w-auto! bg-transparent! p-0!"
+          onClick={() => setIsOpen(true)}
         >
           <Config className="size-8" />
         </Button>
       </div>
+
+      {isOpen && (
+        <div className="absolute inset-0 z-30 bg-neutral-900/70">
+          <Settings close={() => setIsOpen(false)} />
+        </div>
+      )}
     </header>
   )
 }

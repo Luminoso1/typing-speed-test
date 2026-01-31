@@ -19,7 +19,7 @@ export default function TypingView() {
 const Header = () => {
   const { status } = useConfig()
   return (
-    <div className="relative z-20 flex min-h-16 flex-col justify-end *:leading-none lg:flex-row lg:items-center">
+    <div className="relative z-20 min-h-16">
       {status == 'TYPING' && <Stats />}
     </div>
   )
@@ -75,17 +75,17 @@ const Footer = () => {
   const { status } = useConfig()
   const { restart, next } = useActions()
   return (
-    <div className="flex items-center gap-3 sm:justify-center">
+    <div className="flex w-full flex-col gap-x-3 gap-y-5 sm:flex-row sm:justify-center">
       {status === 'TYPING' && (
-        <Button aria-label="Restart Test" onClick={restart}>
+        <Button icon aria-label="Restart Test" onClick={restart}>
           <Restart className="size-7" />
           <span className="md:hidden">Restart Test</span>
         </Button>
       )}
 
-      <Button aria-label="Next Test" onClick={next}>
+      <Button icon aria-label="Next Test" onClick={next}>
         <Next className="size-7" />
-        <span className="md:hidden">Next Text</span>
+        <span className="leading-none md:hidden">Next Text</span>
       </Button>
     </div>
   )

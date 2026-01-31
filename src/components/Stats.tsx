@@ -18,8 +18,8 @@ export default function Stats() {
   })
 
   return (
-    <div className="flex items-center justify-center gap-10">
-      <div className="flex h-32 w-32 flex-col items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 md:h-16 md:w-40 md:flex-row">
+    <div className="grid grid-cols-2 gap-5 sm:grid-cols-3">
+      <div className="flex h-16 w-full flex-row items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 sm:w-40">
         <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">
           WPM
         </span>
@@ -28,14 +28,14 @@ export default function Stats() {
         </span>
       </div>
 
-      <div className="flex h-32 w-32 flex-col items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 md:h-16 md:w-40 md:flex-row">
+      <div className="flex h-16 flex-row items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 sm:w-40">
         <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">
           Acc
         </span>
         <span className={accClasses}>{accuracy}%</span>
       </div>
 
-      <div className="flex h-32 w-32 flex-col items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 md:h-16 md:w-40 md:flex-row">
+      <div className="col-span-2 sm:col-span-1 flex h-16 flex-row items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 sm:w-40">
         <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">
           Time
         </span>

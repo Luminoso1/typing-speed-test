@@ -11,7 +11,7 @@ function App() {
   const View = status === 'FINISHED' ? Result : TypingView
 
   return (
-    <div className="mx-auto max-w-[1280px] px-4 md:px-8">
+    <div className="relative mx-auto max-w-[1280px] px-4 md:px-8">
       <Header bestScore={bestScore} />
       <View />
     </div>
