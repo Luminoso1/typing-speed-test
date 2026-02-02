@@ -1,31 +1,10 @@
 import { useRef } from 'react'
 import TypeBox from '../components/TypeBox'
 import Stats from '../components/Stats'
-import Button from '../components/Button'
-import { Restart, Next } from '../components/Icons'
 
 import { useConfig, useActions, useTyping } from '../store/context'
 
 export default function TypingView() {
-  return (
-    <>
-      <Header />
-      <Main />
-      <Footer />
-    </>
-  )
-}
-
-const Header = () => {
-  const { status } = useConfig()
-  return (
-    <div className="relative z-20 min-h-16">
-      {status == 'TYPING' && <Stats />}
-    </div>
-  )
-}
-
-const Main = () => {
   const { status, text } = useConfig()
   const { start, pause, resume, setInput } = useActions()
   const { input, errors } = useTyping()
@@ -42,16 +21,18 @@ const Main = () => {
   }
 
   return (
-    <>
+    <div className="mt-12 flex-1 md:mt-32">
       {status === 'TYPING' && (
-        <div onClick={pause} className="absolute inset-0 bg-neutral-900"></div>
+        <div onClick={pause} className="absolute inset-0 bg-neutral-900">
+          <Header />
+        </div>
       )}
       <input
         type="text"
         autoCapitalize="off"
         autoComplete="off"
         autoCorrect="off"
-        autoFocus
+        autoFocus={true}
         value={input}
         onChange={handleChange}
         ref={hiddenInputRef}
@@ -63,30 +44,19 @@ const Main = () => {
         role="button"
         tabIndex={0}
         onClick={handleHiddenInputFocus}
-        className="relative z-20"
+        className="focus relative z-20 rounded-md"
       >
         <TypeBox text={text} userInput={input} errors={errors} />
       </div>
-    </>
+    </div>
   )
 }
 
-const Footer = () => {
+const Header = () => {
   const { status } = useConfig()
-  const { restart, next } = useActions()
   return (
-    <div className="flex w-full flex-col gap-x-3 gap-y-5 sm:flex-row sm:justify-center">
-      {status === 'TYPING' && (
-        <Button icon aria-label="Restart Test" onClick={restart}>
-          <Restart className="size-7" />
-          <span className="md:hidden">Restart Test</span>
-        </Button>
-      )}
-
-      <Button icon aria-label="Next Test" onClick={next}>
-        <Next className="size-7" />
-        <span className="leading-none md:hidden">Next Text</span>
-      </Button>
+    <div className="relative top-8 z-20 min-h-16 justify-center px-4 md:flex md:px-8">
+      {status == 'TYPING' && <Stats />}
     </div>
   )
 }

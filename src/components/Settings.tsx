@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import Button from './Button'
 import { Close } from './Icons'
+import { LEVELS, MODES, DURATIONS } from '../lib/constants'
 
 import { useConfig, useActions } from '../store/context'
 
@@ -11,7 +12,7 @@ export default function Settings({ close }: { close: () => void }) {
   return (
     <section className="ml-auto h-dvh w-full max-w-xl rounded-b-xl border-neutral-800 bg-neutral-900 shadow-lg sm:h-auto sm:border-r sm:border-b sm:border-l">
       {/* Header */}
-      <header className="border-b border-neutral-800 px-4 py-8 md:px-8">
+      <header className="border-b border-neutral-800 px-4 py-8 md:py-10 md:px-8">
         <div className="flex items-center justify-between">
           <h2 className="text-neutral-0 text-2xl font-semibold">Settings</h2>
           <Button
@@ -52,7 +53,7 @@ export default function Settings({ close }: { close: () => void }) {
 
           <Labels
             name="level"
-            items={['easy', 'medium', 'hard']}
+            items={LEVELS}
             current={level}
             onChange={setLevel}
           />
@@ -62,12 +63,7 @@ export default function Settings({ close }: { close: () => void }) {
         <div className="flex items-center justify-between">
           <h3 className="text-neutral-0 font-medium">Mode</h3>
 
-          <Labels
-            name="mode"
-            items={['timed', 'passage']}
-            current={mode}
-            onChange={setMode}
-          />
+          <Labels name="mode" items={MODES} current={mode} onChange={setMode} />
         </div>
 
         {/* Duration */}
@@ -77,7 +73,7 @@ export default function Settings({ close }: { close: () => void }) {
 
             <Labels
               name="duration"
-              items={[15, 30, 60, 120]}
+              items={DURATIONS}
               current={duration}
               onChange={setDuration}
             />
@@ -88,14 +84,19 @@ export default function Settings({ close }: { close: () => void }) {
   )
 }
 
-type LabelsProps = {
+type LabelsProps<T> = {
   name: string
-  items: any[]
-  current: string | number
-  onChange: (value: any) => void
+  items: readonly T[]
+  current: T
+  onChange: (value: T) => void
 }
 
-const Labels = ({ name, items, current, onChange }: LabelsProps) => {
+const Labels = function <T>({
+  name,
+  items,
+  current,
+  onChange,
+}: LabelsProps<T>) {
   return (
     <ul className="flex justify-around gap-2 rounded-full bg-neutral-800 p-4">
       {items.map((value, index) => {

@@ -11,7 +11,7 @@ const CharacterItem = memo(
     { value, state, isCurrent },
     ref,
   ) {
-    const spanClasses = clsx('relative text-[2.5rem] transition-colors duration-300', {
+    const spanClasses = clsx('relative  transition-colors  duration-300', {
       'text-neutral-600': state === 'EMPTY',
       'text-neutral-300/80': state === 'FILLED',
       'text-error': state === 'ERROR',

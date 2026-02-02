@@ -7,7 +7,7 @@ export default function Header({ bestScore }: { bestScore: number }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <header className="flex items-center justify-between pt-8 pb-16">
+    <header className="flex items-center justify-between">
       <div className="flex items-center gap-2">
         <Keyboard className="size-7" />
         <div className="max-sm:hidden">
@@ -33,7 +33,7 @@ export default function Header({ bestScore }: { bestScore: number }) {
       </div>
 
       {isOpen && (
-        <div className="absolute inset-0 z-30 bg-neutral-900/70">
+        <div className="absolute inset-0 z-40 bg-neutral-900/70">
           <Settings close={() => setIsOpen(false)} />
         </div>
       )}

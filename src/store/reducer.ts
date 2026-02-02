@@ -70,6 +70,7 @@ export function reducer(state: State, action: Action): State {
         input: '',
         text: getRandomText(state.level),
         errors: new Set(),
+        isNewRecord: false,
       }
 
     case 'TICK': {

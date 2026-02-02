@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 import type { CharacterState } from '../lib/types.ts'
 import Char from './Char'
 
@@ -9,6 +9,8 @@ type Props = {
 }
 
 export default function TypeBox({ text, userInput, errors }: Props) {
+  const chars = useMemo(() => text.split(''), [text])
+
   const containerCharsRef = useRef<HTMLDivElement>(null)
   const currentCharRef = useRef<HTMLSpanElement>(null)
 
@@ -20,7 +22,7 @@ export default function TypeBox({ text, userInput, errors }: Props) {
 
     const itemTop = item.offsetTop
 
-    const containerPadding = 2
+    const containerPadding = 8
 
     container.scrollTo({
       top: itemTop - containerPadding,
@@ -29,12 +31,12 @@ export default function TypeBox({ text, userInput, errors }: Props) {
   }, [userInput.length])
 
   return (
-    <div className="type-box mt-4 min-h-[300px] w-full border-none px-2 leading-[1.35] tracking-[.4px] text-white">
+    <div className="w-full border-none tracking-[.4px] text-white">
       <div
         ref={containerCharsRef}
-        className="characters max-h-[162px] overflow-hidden scroll-smooth outline-none"
+        className="h-[calc(3*1.5em)] overflow-hidden scroll-smooth font-mono text-[2.2rem] leading-[1.5] outline-none"
       >
-        {text.split('').map((char, index) => {
+        {chars.map((char, index) => {
           let state: CharacterState = 'EMPTY'
           if (index < userInput.length) {
             state = errors.has(index) ? 'ERROR' : 'FILLED'

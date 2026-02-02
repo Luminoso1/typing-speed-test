@@ -13,9 +13,8 @@ export const ALLOWED_KEYS = [
 
 export const LEVELS = ['easy', 'medium', 'hard'] as const
 
-export const MODES = [
-  { label: 'Timed (60s)', value: 'timed' },
-  { label: 'passage', value: 'passage' },
-] as const
+export const MODES = ['timed', 'passage'] as const
+
+export const DURATIONS = [15, 30, 60, 120] as const
 
 export const DEFAULT_TIME = 60 // seconds
