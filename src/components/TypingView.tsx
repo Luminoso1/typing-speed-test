@@ -38,7 +38,7 @@ export default function TypingView() {
         ref={hiddenInputRef}
         aria-label="Hidden keyboard input"
         tabIndex={-1}
-        className="pointer-events-none absolute top-0 left-0 h-[1px] w-[1px] opacity-0"
+        className="pointer-events-none absolute top-0 left-0 h-px w-px opacity-0"
       />
       <div
         role="button"
