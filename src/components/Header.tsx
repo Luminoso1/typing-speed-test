@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Button from './Button'
 import Settings from './Settings'
 import { Keyboard, Trophy, Config } from './Icons'
+import clsx from 'clsx'
 
 export default function Header({ bestScore }: { bestScore: number }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -33,10 +34,19 @@ export default function Header({ bestScore }: { bestScore: number }) {
       </div>
 
       {isOpen && (
-        <div className="absolute inset-0 z-40 bg-neutral-900/70">
-          <Settings close={() => setIsOpen(false)} />
-        </div>
+        <div className="absolute inset-0 z-40 bg-neutral-900/80"></div>
       )}
+
+      <div
+        className={clsx(
+          'absolute inset-0 z-40 transition-transform duration-700 ease-in-out',
+          {
+            'translate-x-full opacity-80': !isOpen,
+          },
+        )}
+      >
+        <Settings close={() => setIsOpen(false)} />
+      </div>
     </header>
   )
 }
