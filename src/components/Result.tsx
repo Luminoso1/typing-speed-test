@@ -1,7 +1,8 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Check, Party } from './Icons'
 import Button from './Button'
 import { useConfig, useStats, useActions, useTyping } from '../store/context'
+import confetti from 'canvas-confetti'
 
 export default function Results() {
   const { text } = useConfig()
@@ -31,6 +32,25 @@ export default function Results() {
       desc: 'Solid run. Keep pushing to beat your high score.',
     }
   }, [isNewRecord, hasCompletedOnce])
+
+  useEffect(() => {
+    if (!isNewRecord) return
+    // from the left edge
+    confetti({
+      particleCount: 120,
+      angle: 60,
+      spread: 90,
+      origin: { x: 0 },
+    })
+    // from the right edge
+    confetti({
+      particleCount: 120,
+      angle: 120,
+      spread: 90,
+      origin: { x: 1 },
+    })
+  }, [isNewRecord])
+
   return (
     <div className="text-center">
       <finishUI.Icon className="relative z-30 mx-auto w-12 md:w-16" />
