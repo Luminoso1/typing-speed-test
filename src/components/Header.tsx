@@ -33,17 +33,10 @@ export default function Header({ bestScore }: { bestScore: number }) {
         </Button>
       </div>
 
-      {isOpen && (
-        <div className="absolute inset-0 z-40 bg-neutral-900/80"></div>
-      )}
-
       <div
-        className={clsx(
-          'absolute inset-0 z-40 transition-transform duration-700 ease-in-out',
-          {
-            'translate-x-full opacity-80': !isOpen,
-          },
-        )}
+        className={clsx('absolute inset-0 z-40', {
+          'translate-x-full opacity-80': !isOpen,
+        })}
       >
         <Settings close={() => setIsOpen(false)} />
       </div>

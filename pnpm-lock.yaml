@@ -23,6 +23,9 @@ importers:
       react-dom:
         specifier: ^19.2.0
         version: 19.2.3(react@19.2.3)
+      tailwind-animations:
+        specifier: ^1.0.1
+        version: 1.0.1(tailwindcss@4.1.18)
       tailwindcss:
         specifier: ^4.1.18
         version: 4.1.18
@@ -1325,6 +1328,11 @@ packages:
     resolution: {integrity: sha512-MeQTA1r0litLUf0Rp/iisCaL8761lKAZHaimlbGK4j0HysC4PLfqygQj9srcs0m2RdtDYnF8UuYyKpbjHYp7Jw==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
+  tailwind-animations@1.0.1:
+    resolution: {integrity: sha512-5ouCdgfGS4kcyuzRSb/1O3o9f5Akssi7ue46PHfKjvPLMWjtnzmqM8i6ElES3tKVTyhjSaTPfLti7aB7WSxhZg==}
+    peerDependencies:
+      tailwindcss: ^4.0.0
+
   tailwindcss@4.1.18:
     resolution: {integrity: sha512-4+Z+0yiYyEtUVCScyfHCxOYP06L5Ne+JiHhY2IjR2KWMIWhJOYZKLSGZaP5HkZ8+bY0cxfzwDE5uOmzFXyIwxw==}
 
@@ -2498,6 +2506,10 @@ snapshots:
   synckit@0.11.11:
     dependencies:
       '@pkgr/core': 0.2.9
+
+  tailwind-animations@1.0.1(tailwindcss@4.1.18):
+    dependencies:
+      tailwindcss: 4.1.18
 
   tailwindcss@4.1.18: {}
 

@@ -52,7 +52,7 @@ export default function Results() {
   }, [isNewRecord])
 
   return (
-    <div className="text-center">
+    <div className="animate-fade-in animate-duration-200 text-center">
       <finishUI.Icon className="relative z-30 mx-auto w-12 md:w-16" />
       <h2 className="mt-8 text-[40px] font-bold">{finishUI.title}</h2>
       <p className="text-xl text-neutral-400">{finishUI.desc}</p>

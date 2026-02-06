@@ -1,8 +1,8 @@
 import { useRef } from 'react'
 import TypeBox from '../components/TypeBox'
 import Stats from '../components/Stats'
-
 import { useConfig, useActions, useTyping } from '../store/context'
+import clsx from 'clsx'
 
 export default function TypingView() {
   const { status, text } = useConfig()
@@ -23,7 +23,17 @@ export default function TypingView() {
   return (
     <div className="mt-12 flex-1 md:mt-32">
       {status === 'TYPING' && (
-        <div onClick={pause} className="absolute inset-0 bg-neutral-900">
+        <div
+          onClick={pause}
+          className={clsx(
+            'fixed inset-0 bg-neutral-900',
+            'animate-duration-250',
+            {
+              'animate-fade-in block': status === 'TYPING',
+              'animate-fade-out': status !== 'TYPING',
+            },
+          )}
+        >
           <Header />
         </div>
       )}

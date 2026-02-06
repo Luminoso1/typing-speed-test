@@ -19,7 +19,7 @@ export default function Stats() {
 
   return (
     <div className="grid grid-cols-2 gap-5 sm:grid-cols-3">
-      <div className="flex h-16 w-full flex-row items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 sm:w-40">
+      <div className="animate-zoom-in animate-duration-200 animate-delay-200 flex h-16 w-full flex-row items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 sm:w-40">
         <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">
           WPM
         </span>
@@ -28,14 +28,14 @@ export default function Stats() {
         </span>
       </div>
 
-      <div className="flex h-16 flex-row items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 sm:w-40">
+      <div className="animate-zoom-in animate-duration-200 animate-delay-400 flex h-16 flex-row items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 sm:w-40">
         <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">
           Acc
         </span>
         <span className={accClasses}>{accuracy}%</span>
       </div>
 
-      <div className="col-span-2 sm:col-span-1 flex h-16 flex-row items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 sm:w-40">
+      <div className="animate-zoom-in animate-duration-200 animate-delay-800 col-span-2 flex h-16 flex-row items-center justify-between gap-2 rounded-full border border-neutral-700 px-7 sm:col-span-1 sm:w-40">
         <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">
           Time
         </span>

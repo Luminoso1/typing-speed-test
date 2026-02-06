@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'tailwind-animations';
 
 :root {
   font-family: 'Sora', system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -110,8 +111,8 @@ body {
   bottom: -2px;
   width: 100%;
   height: 2px;
-  background-color: #fff;
-  animation: blink 1s step-end infinite;
+  background-color: var(--color-neutral-0);
+  animation: blink-animation 1s step-end infinite;
 }
 
 .text-error {
@@ -138,7 +139,7 @@ body {
   background-color: var(--color-blue-400);
 }
 
-@keyframes blink {
+@keyframes blink-animation {
   0%,
   100% {
     opacity: 1;
