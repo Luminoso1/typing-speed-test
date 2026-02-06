@@ -22,7 +22,7 @@ export default function TypeBox({ text, userInput, errors }: Props) {
 
     const itemTop = item.offsetTop
 
-    const containerPadding = 8
+    const containerPadding = 2
 
     container.scrollTo({
       top: itemTop - containerPadding,
@@ -34,7 +34,7 @@ export default function TypeBox({ text, userInput, errors }: Props) {
     <div className="w-full border-none tracking-[.4px] text-white">
       <div
         ref={containerCharsRef}
-        className="h-[calc(3*1.5em)] overflow-hidden scroll-smooth font-mono text-[2.2rem] leading-[1.5] outline-none"
+        className="h-[calc(3*2em)] overflow-hidden scroll-smooth font-mono text-[2.2rem] leading-loose outline-none"
       >
         {chars.map((char, index) => {
           let state: CharacterState = 'EMPTY'

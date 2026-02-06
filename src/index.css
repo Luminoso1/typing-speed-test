@@ -1,8 +1,12 @@
 @import 'tailwindcss';
 @import 'tailwind-animations';
 
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/600.css';
+@import '@fontsource/jetbrains-mono/700.css';
+
 :root {
-  font-family: 'Sora', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'JetBrains Mono', monospace, system-ui;
 }
 
 @theme {
