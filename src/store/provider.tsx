@@ -1,4 +1,4 @@
-import { useEffect, useRef, useReducer, useMemo } from 'react'
+import { useEffect, useRef, useReducer, useMemo, useCallback } from 'react'
 import { reducer, INITIAL_STATE } from './reducer'
 import { Config, Stats, Actions, Typing } from './context'
 import { calcWpm, calcAccuracy } from '../lib/helpers'
@@ -26,22 +26,33 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const time =
     state.mode !== 'passage' ? state.duration - state.counter : state.counter
 
-  const setLevel = (v: Level) => dispatch({ type: 'SET_LEVEL', payload: v })
+  const setLevel = useCallback(
+    (v: Level) => dispatch({ type: 'SET_LEVEL', payload: v }),
+    [],
+  )
 
-  const setMode = (v: Mode) => dispatch({ type: 'SET_MODE', payload: v })
+  const setMode = useCallback(
+    (v: Mode) => dispatch({ type: 'SET_MODE', payload: v }),
+    [],
+  )
 
-  const setDuration = (v: Duration) =>
-    dispatch({ type: 'SET_DURATION', payload: v })
+  const setDuration = useCallback(
+    (v: Duration) => dispatch({ type: 'SET_DURATION', payload: v }),
+    [],
+  )
 
-  const setInput = (v: string) => dispatch({ type: 'SET_INPUT', payload: v })
+  const setInput = useCallback(
+    (v: string) => dispatch({ type: 'SET_INPUT', payload: v }),
+    [],
+  )
 
   // start  when [status:IDLE]
-  const start = () => {
+  const start = useCallback(() => {
     dispatch({ type: 'START' })
     startedAtRef.current = Date.now()
-  }
+  }, [])
 
-  const resume = () => {
+  const resume = useCallback(() => {
     dispatch({ type: 'START' })
 
     if (startedAtRef.current && pausedAtRef.current) {
@@ -50,16 +61,16 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     }
 
     pausedAtRef.current = null
-  }
+  }, [])
 
-  const pause = () => {
+  const pause = useCallback(() => {
     dispatch({ type: 'PAUSE' })
     pausedAtRef.current = Date.now()
-  }
+  }, [])
 
-  const restart = () => dispatch({ type: 'RESTART' })
+  const restart = useCallback(() => dispatch({ type: 'RESTART' }), [])
 
-  const next = () => dispatch({ type: 'NEXT' })
+  const next = useCallback(() => dispatch({ type: 'NEXT' }), [])
 
   // tick -> counter when [status:TYPING]
   useEffect(() => {

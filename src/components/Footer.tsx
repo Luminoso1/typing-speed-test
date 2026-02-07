@@ -1,10 +1,11 @@
+import { memo } from 'react'
 import Button from './Button'
 import { Restart, Next } from './Icons'
 import { useConfig, useActions } from '../store/context'
 
-export default function Footer() {
+const Footer = memo(function Footer() {
   const { status } = useConfig()
-  const { restart, next } = useActions()
+  const { next, restart } = useActions()
   return (
     <div className="flex w-full flex-col gap-x-3 gap-y-5 sm:flex-row sm:justify-center">
       {status === 'TYPING' && (
@@ -22,4 +23,6 @@ export default function Footer() {
       </Button>
     </div>
   )
-}
+})
+
+export default Footer
