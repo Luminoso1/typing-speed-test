@@ -1,8 +1,7 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import TypeBox from '../components/TypeBox'
 import Stats from '../components/Stats'
 import { useConfig, useActions, useTyping } from '../store/context'
-import clsx from 'clsx'
 
 export default function TypingView() {
   const { status, text } = useConfig()
@@ -11,53 +10,85 @@ export default function TypingView() {
 
   const hiddenInputRef = useRef<HTMLInputElement>(null)
 
-  const handleHiddenInputFocus = () => hiddenInputRef.current?.focus()
+  // Keep hidden input focus
+  useEffect(() => {
+    const handlePointerDown = (event: MouseEvent) => {
+      const target = event.target as Element
 
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    if (status === 'IDLE') start()
-    if (status === 'PAUSED') resume()
-    const value = event.target.value
-    setInput(value)
-  }
+      if (target.closest('[role="dialog"]')) return
+
+      requestAnimationFrame(() => {
+        hiddenInputRef.current?.focus()
+      })
+    }
+
+    document.addEventListener('mousedown', handlePointerDown)
+    return () => document.removeEventListener('mousedown', handlePointerDown)
+  }, [])
+
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      if (status === 'IDLE') start()
+      if (status === 'PAUSED') resume()
+      const value = event.target.value
+      setInput(value)
+    },
+    [status, start, resume, setInput],
+  )
 
   return (
-    <div className="mt-12 flex-1 md:mt-32">
+    <div className="mt-16 flex-1 md:mt-28">
       {status === 'TYPING' && (
-        <div
-          onClick={pause}
-          className={clsx(
-            'fixed inset-0 bg-neutral-900',
-            'animate-duration-250',
-            {
-              'animate-fade-in block': status === 'TYPING',
-              'animate-fade-out': status !== 'TYPING',
-            },
-          )}
-        >
+        <Overlay onClick={pause}>
           <Header />
-        </div>
+        </Overlay>
       )}
-      <input
-        type="text"
-        autoCapitalize="off"
-        autoComplete="off"
-        autoCorrect="off"
-        autoFocus={true}
-        value={input}
-        onChange={handleChange}
-        ref={hiddenInputRef}
-        aria-label="Hidden keyboard input"
-        tabIndex={-1}
-        className="pointer-events-none absolute top-0 left-0 h-px w-px opacity-0"
-      />
       <div
-        role="button"
         tabIndex={0}
-        onClick={handleHiddenInputFocus}
-        className="focus relative z-20 rounded-md"
+        onFocus={() => hiddenInputRef.current?.focus()}
+        className="rounded-lg outline-blue-400/70 focus-within:outline-2 focus-within:outline-offset-8"
       >
+        <HiddenInput ref={hiddenInputRef} value={input} onChange={onChange} />
         <TypeBox text={text} userInput={input} errors={errors} />
       </div>
+    </div>
+  )
+}
+
+interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
+  ref: React.Ref<HTMLInputElement>
+  value: string
+}
+
+const HiddenInput = ({ ref, value, onChange, ...rest }: InputProps) => {
+  return (
+    <input
+      {...rest}
+      type="text"
+      autoCapitalize="off"
+      autoComplete="off"
+      autoCorrect="off"
+      autoFocus
+      value={value}
+      onChange={onChange}
+      ref={ref}
+      aria-label="Hidden keyboard input"
+      data-hidden={true}
+      tabIndex={-1}
+      className="pointer-events-none absolute h-px w-px opacity-0"
+    />
+  )
+}
+
+type OverlayProps = React.HTMLAttributes<HTMLDivElement>
+
+const Overlay = ({ onClick, children }: OverlayProps) => {
+  return (
+    <div
+      onClick={onClick}
+      className="animate-fade-in animate-duration-normal fixed inset-0 bg-neutral-900"
+    >
+      {children}
     </div>
   )
 }
