@@ -39,7 +39,7 @@ export default function Button({
             'transition-opacity duration-200',
 
             // only devices with hover
-            'hidden group-hover:opacity-100',
+            'hidden group-focus-within:opacity-100 group-hover:opacity-100',
             '[@media(hover:hover)]:block',
           )}
         >

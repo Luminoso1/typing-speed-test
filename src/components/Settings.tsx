@@ -5,14 +5,23 @@ import { LEVELS, MODES, DURATIONS } from '../lib/constants'
 
 import { useConfig, useActions } from '../store/context'
 
-export default function Settings({ close }: { close: () => void }) {
+export default function Settings({
+  ref,
+  close,
+}: {
+  ref: React.Ref<HTMLDivElement>
+  close: () => void
+}) {
   const { level, mode, duration } = useConfig()
   const { setLevel, setMode, setDuration } = useActions()
 
   return (
-    <section className="ml-auto h-dvh w-full max-w-xl rounded-b-xl border-neutral-800 bg-neutral-900 shadow-lg sm:h-auto sm:border-r sm:border-b sm:border-l">
+    <section
+      ref={ref}
+      className="animate-fade-in-left animate-duration-normal ml-auto h-dvh w-full max-w-xl rounded-b-xl border-neutral-800 bg-neutral-900 shadow-lg sm:h-auto sm:border-r sm:border-b sm:border-l"
+    >
       {/* Header */}
-      <header className="border-b border-neutral-800 px-4 py-8 md:py-10 md:px-8">
+      <header className="border-b border-neutral-800 px-4 py-8 md:px-8 md:py-10">
         <div className="flex items-center justify-between">
           <h2 className="text-neutral-0 text-2xl font-semibold">Settings</h2>
           <Button
@@ -34,7 +43,7 @@ export default function Settings({ close }: { close: () => void }) {
             <p className="text-sm text-neutral-400">App appearance</p>
           </div>
           <Labels
-            name="duration"
+            name="theme"
             items={['light', 'dark']}
             current={'dark'}
             onChange={() => {}}
@@ -101,29 +110,29 @@ const Labels = function <T>({
     <ul className="flex justify-around gap-2 rounded-full bg-neutral-800 p-4">
       {items.map((value, index) => {
         const id = `${value}-${index}`
+        const isChecked = current === value
 
         return (
-          <li key={id}>
-            <label
-              htmlFor={id}
-              className={clsx(
-                'hover:text-neutral-0 cursor-pointer rounded-full px-5 py-3 text-sm text-neutral-400 capitalize transition-all duration-300 hover:bg-neutral-700/60',
-                {
-                  'bg-blue-600 text-white': current === value,
-                },
-              )}
-            >
-              {value}
-            </label>
-
+          <label
+            tabIndex={0}
+            htmlFor={id}
+            className={clsx(
+              'focus cursor-pointer rounded-full px-5 py-3 text-sm capitalize transition-all duration-300',
+              'hover:text-neutral-0 text-neutral-400 hover:bg-neutral-700/60',
+              'has-checked:bg-blue-600 has-checked:text-white',
+            )}
+          >
             <input
               type="radio"
-              name={name}
               id={id}
+              name={name}
+              value={typeof value === 'string' ? value : Number(value)}
+              checked={isChecked}
               onChange={() => onChange(value)}
-              className="hidden"
+              hidden
             />
-          </li>
+            {value as string}
+          </label>
         )
       })}
     </ul>

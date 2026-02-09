@@ -2,10 +2,12 @@ import { useState, memo } from 'react'
 import Button from './Button'
 import Settings from './Settings'
 import { Keyboard, Trophy, Config } from './Icons'
+import useFocusTrap from '../hooks/useFocusTrap'
 
 const Header = memo(
   function Header({ bestScore }: { bestScore: number }) {
     const [isOpen, setIsOpen] = useState(false)
+    const containerRef = useFocusTrap(isOpen)
 
     return (
       <header className="flex items-center justify-between">
@@ -34,8 +36,11 @@ const Header = memo(
         </div>
 
         {isOpen && (
-          <div className="absolute inset-0 z-40 bg-neutral-900/70">
-            <Settings close={() => setIsOpen(false)} />
+          <div
+            role="dialog"
+            className="absolute inset-0 z-40 overflow-hidden bg-neutral-900/70"
+          >
+            <Settings close={() => setIsOpen(false)} ref={containerRef} />
           </div>
         )}
       </header>
