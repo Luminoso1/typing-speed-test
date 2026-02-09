@@ -1,4 +1,4 @@
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
 export const Keyboard = (props: Props) => {
   return (

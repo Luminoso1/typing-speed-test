@@ -12,7 +12,7 @@ function App() {
   const View = status === 'FINISHED' ? Result : TypingView
 
   return (
-    <div className="relative mx-auto flex h-dvh max-w-7xl flex-col gap-24 overflow-hidden px-4 pt-8 pb-8 md:px-8 md:pt-10 md:pb-32">
+    <div className="relative mx-auto flex h-dvh max-w-7xl flex-col gap-24 px-4 pt-8 pb-8 md:px-8 md:pt-10 md:pb-32">
       <Header bestScore={bestScore} />
 
       <View />
