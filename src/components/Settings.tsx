@@ -113,26 +113,26 @@ const Labels = function <T>({
         const isChecked = current === value
 
         return (
-          <label
-            tabIndex={0}
-            htmlFor={id}
-            className={clsx(
-              'focus cursor-pointer rounded-full px-5 py-3 text-sm capitalize transition-all duration-300',
-              'hover:text-neutral-0 text-neutral-400 hover:bg-neutral-700/60',
-              'has-checked:bg-blue-600 has-checked:text-white',
-            )}
-          >
-            <input
-              type="radio"
-              id={id}
-              name={name}
-              value={typeof value === 'string' ? value : Number(value)}
-              checked={isChecked}
-              onChange={() => onChange(value)}
-              hidden
-            />
-            {value as string}
-          </label>
+          <li key={id}>
+            <label
+              htmlFor={id}
+              className={clsx(
+                'focus cursor-pointer rounded-full px-5 py-3 text-sm capitalize transition-all duration-300',
+                'hover:text-neutral-0 text-neutral-400 hover:bg-neutral-700/60',
+                'has-checked:bg-blue-600 has-checked:text-white',
+                'has-focus-visible:ring-2 has-focus-visible:ring-blue-400',
+              )}
+            >
+              <input
+                type="radio"
+                id={id}
+                name={name}
+                checked={isChecked}
+                onChange={() => onChange(value)}
+              />
+              {value as string}
+            </label>
+          </li>
         )
       })}
     </ul>
