@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react'
 
-type Focusable =
-  | HTMLButtonElement
-  | HTMLAnchorElement
-  | HTMLInputElement
-  | HTMLSelectElement
-  | HTMLTextAreaElement
+/*
+ * Query only button & radios checked.
+ * Beacause radios only focus `Tab` checked ones.
+ * If the last one isn't checked -> focus leaves containerRef.
+ *
+ * */
+
+const focusableSelector = 'button, input[type="radio"]:checked'
 
 export default function useFocusTrap(isOpen: boolean) {
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -14,40 +16,48 @@ export default function useFocusTrap(isOpen: boolean) {
   useEffect(() => {
     // restore previous focus after close
     if (!isOpen) {
-      previousFocus.current?.focus()
+      requestAnimationFrame(() => {
+        previousFocus.current?.focus()
+      })
       return
     }
 
     // save active element  as previous focus
     previousFocus.current = document.activeElement as HTMLElement
 
-    if (!containerRef.current) return
-
-    const focusables: NodeListOf<Focusable> =
-      containerRef.current.querySelectorAll(
-        'button, [tabindex]:not([tabindex="-1"])',
-      )
-
-    const first = focusables[0]
-    const last = focusables[focusables.length - 1]
-
-    // auto-focus frist element within container
-    if (first) first.focus()
-
     const handleTab = (event: KeyboardEvent) => {
-      if (event.key !== 'Tab') return
-      if (event.shiftKey) {
-        if (document.activeElement === first) {
-          last.focus()
-          event.preventDefault()
-        }
-      } else {
-        if (document.activeElement === last) {
-          first.focus()
-          event.preventDefault()
-        }
+      if (event.key !== 'Tab' || !containerRef.current) return
+
+      const focusableElements =
+        containerRef.current.querySelectorAll<HTMLElement>(focusableSelector)
+
+      if (focusableElements.length === 0) {
+        event.preventDefault()
+      }
+
+      const first = focusableElements[0]
+      const last = focusableElements[focusableElements.length - 1]
+      const activeElement = document.activeElement as HTMLElement
+
+      if (event.shiftKey && activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && activeElement == last) {
+        event.preventDefault()
+        first.focus()
       }
     }
+    const initialFocus = () => {
+      const focusable =
+        containerRef.current?.querySelectorAll<HTMLElement>(
+          focusableSelector,
+        )[0]
+      focusable?.focus()
+    }
+
+    requestAnimationFrame(() => {
+      initialFocus()
+    })
 
     document.addEventListener('keydown', handleTab)
 
