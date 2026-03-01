@@ -147,7 +147,10 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     ],
   )
 
-  const typing = useMemo(() => ({ input, errors, corrects }), [input, errors])
+  const typing = useMemo(
+    () => ({ input, errors, corrects }),
+    [input, errors, corrects],
+  )
 
   return (
     <Config value={config}>
