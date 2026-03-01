@@ -17,6 +17,7 @@ export default function Button({
     <div className="group relative">
       <button
         {...rest}
+        aria-label={ariaLabel}
         disabled={disabled}
         className={clsx(
           'focus w-full cursor-pointer rounded-lg p-4 transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:p-3',

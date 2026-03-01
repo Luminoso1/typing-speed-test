@@ -37,7 +37,7 @@ export default function TypingView() {
   )
 
   return (
-    <div className="mt-16 flex-1 md:mt-28">
+    <main className="mt-16 flex-1 md:mt-28">
       {status === 'TYPING' && (
         <Overlay onClick={pause}>
           <Header />
@@ -51,7 +51,7 @@ export default function TypingView() {
         <HiddenInput ref={hiddenInputRef} value={input} onChange={onChange} />
         <TypeBox text={text} userInput={input} errors={errors} />
       </div>
-    </div>
+    </main>
   )
 }
 

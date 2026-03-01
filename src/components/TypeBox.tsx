@@ -16,6 +16,8 @@ export default function TypeBox({ text, userInput, errors }: Props) {
   return (
     <div
       ref={container}
+      role="region"
+      aria-label="Typing passage"
       className="relative h-[calc(4*2em)] overflow-hidden scroll-smooth font-mono text-[2rem] leading-loose tracking-[.4px] outline-none md:h-[calc(3*2em)]"
     >
       {chars.map((char, index) => {
