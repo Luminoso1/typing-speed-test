@@ -8,7 +8,7 @@ export default function TypingView() {
   const { start, pause, resume, setInput } = useActions()
   const { input, errors } = useTyping()
 
-  const hiddenInputRef = useRef<HTMLInputElement>(null)
+  const hiddenInputRef = useRef<HTMLTextAreaElement>(null)
 
   // Keep hidden input focus
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function TypingView() {
     return () => document.removeEventListener('mousedown', handlePointerDown)
   }, [])
 
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
+  const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     (event) => {
       if (status === 'IDLE') start()
       if (status === 'PAUSED') resume()
@@ -43,40 +43,36 @@ export default function TypingView() {
           <Header />
         </Overlay>
       )}
-      <div
-        tabIndex={0}
-        onFocus={() => hiddenInputRef.current?.focus()}
-        className="rounded-lg outline-blue-400/70 focus-within:outline-2 focus-within:outline-offset-8"
-      >
-        <HiddenInput ref={hiddenInputRef} value={input} onChange={onChange} />
+      <div className="relative rounded-lg outline-blue-400/70 focus-within:outline-2 focus-within:outline-offset-8">
+        <HiddenInput
+          ref={hiddenInputRef}
+          value={input}
+          onChange={onChange}
+          aria-label="Hidden input passage"
+        />
         <TypeBox text={text} userInput={input} errors={errors} />
       </div>
     </main>
   )
 }
 
-interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
-  ref: React.Ref<HTMLInputElement>
+interface InputProps extends React.HTMLAttributes<HTMLTextAreaElement> {
+  ref: React.Ref<HTMLTextAreaElement>
   value: string
 }
 
 const HiddenInput = ({ ref, value, onChange, ...rest }: InputProps) => {
   return (
-    <input
+    <textarea
       {...rest}
-      type="text"
+      ref={ref}
+      value={value}
+      onChange={onChange}
       autoCapitalize="off"
       autoComplete="off"
       autoCorrect="off"
-      autoFocus
-      value={value}
-      onChange={onChange}
-      ref={ref}
-      aria-label="Hidden keyboard input"
-      data-hidden={true}
-      tabIndex={-1}
-      className="pointer-events-none absolute h-px w-px opacity-0"
-    />
+      className="absolute inset-0 opacity-0 outline-0"
+    ></textarea>
   )
 }
 
